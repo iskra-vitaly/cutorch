@@ -92,5 +92,23 @@ __device__ __forceinline__ T WARP_SHFL_DOWN(T value, unsigned int delta, int wid
 #endif
 }
 
+template <typename T>
+__device__ __forceinline__ T WARP_ANY(T value, unsigned int mask = 0xffffffff)
+{
+#if CUDA_VERSION >= 9000
+    return __any_sync(mask, value);
+#else
+    return __any(value, srcLane, width);
+#endif
+}
 
+template <typename T>
+__device__ __forceinline__ T WARP_BALLOT(T predicate, unsigned int mask = 0xffffffff)
+{
+#if CUDA_VERSION >= 9000
+    return __ballot_sync(mask, predicate);
+#else
+    return __ballot(predicate);
+#endif
+}
 #endif // THC_DEVICE_UTILS_INC
