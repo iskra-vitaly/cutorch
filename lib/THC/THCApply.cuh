@@ -21,7 +21,11 @@ template <typename Op,
           typename IndexType,
           int ADims>
 #if __CUDA_ARCH__ >= 350
+#if __CUDA_ARCH__ >= 750
+__launch_bounds__(32 * 16, 2)
+#else
 __launch_bounds__(32 * 16, 4)
+#endif
 #endif
 __global__ void
 kernelPointwiseApply1(TensorInfo<Ta, IndexType> a,
@@ -43,7 +47,11 @@ template <typename Op,
           typename IndexType,
           int ADims, int BDims>
 #if __CUDA_ARCH__ >= 350
+#if __CUDA_ARCH__ >= 750
+__launch_bounds__(32 * 16, 2)
+#else
 __launch_bounds__(32 * 16, 4)
+#endif
 #endif
 __global__ void
 kernelPointwiseApply2(TensorInfo<Ta, IndexType> a,
@@ -70,7 +78,11 @@ template <typename Op,
           typename IndexType,
           int ADims, int BDims, int CDims>
 #if __CUDA_ARCH__ >= 350
+#if __CUDA_ARCH__ >= 750
+__launch_bounds__(32 * 16, 2)
+#else
 __launch_bounds__(32 * 16, 4)
+#endif
 #endif
 __global__ void
 kernelPointwiseApply3(TensorInfo<Ta, IndexType> a,
